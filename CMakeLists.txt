@@ -13,14 +13,8 @@ add_library(${PROJECT_NAME} STATIC
   "src/string_utils.cpp")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+  "include/aws-lambda-cpp"
   "include")
-
-set(PUBLIC_HEADERS
-  "include/macros.h"
-  "include/logger.hpp"
-  "include/string_utils.hpp")
-set_target_properties(${PROJECT_NAME} PROPERTIES
-  PUBLIC_HEADER "${PUBLIC_HEADERS}")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   AWS::aws-lambda-runtime
@@ -31,6 +25,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 install(TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION lib64
-  PUBLIC_HEADER DESTINATION include/aws-lambda-cpp/common)
+  ARCHIVE DESTINATION lib64)
+
+install(DIRECTORY "include" DESTINATION ".")
 
