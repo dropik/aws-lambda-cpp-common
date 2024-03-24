@@ -36,6 +36,14 @@ namespace aws_lambda_cpp {
           v.AsInteger(i);
         }
 
+        void deserialize(long long& l, const json_view& v) {
+          l = v.AsInt64();
+        }
+
+        void serialize(const long long& l, json_value& v) {
+          v.AsInt64(l);
+        }
+
         void deserialize(bool& b, const json_view& v) {
           b = v.AsBool();
         }
@@ -87,6 +95,25 @@ namespace aws_lambda_cpp {
           }
           Aws::Utils::Array<json_value> array_to_insert(json_array.data(), json_array.size());
           v.AsArray(array_to_insert);
+        }
+
+        template<typename t_item>
+        void deserialize(std::map<std::string, t_item>& d, const json_view& v) {
+          auto json_map = v.GetAllObjects();
+          for (const auto& json_property : json_map) {
+            t_item item;
+            deserialize(item, json_property.second);
+            d[json_property.first] = item;
+          }
+        }
+
+        template<typename t_item>
+        void serialize(const std::map<std::string, t_item>& d, json_value& v) {
+          for (const auto& item : d) {
+            json_value next;
+            serialize(item.second, next);
+            v.WithObject(item.first, next);
+          }
         }
 
       public:
