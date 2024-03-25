@@ -87,6 +87,8 @@ namespace aws_lambda_cpp {
           std::map<std::string, std::vector<std::string>> multi_value_headers;
           gateway_proxy_request_context request_context;
 
+          std::string get_body(bool decoded = true) const;
+
           JSON_BEGIN_SERIALIZER(gateway_proxy_request)
             JSON_PROPERTY("body", body)
             JSON_PROPERTY("resource", resource)

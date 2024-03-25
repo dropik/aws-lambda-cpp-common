@@ -9,9 +9,10 @@ find_package(aws-lambda-runtime REQUIRED)
 find_package(AWSSDK COMPONENTS core)
 
 add_library(${PROJECT_NAME} STATIC
-  "src/logger.cpp"
-  "src/string_utils.cpp"
-  "src/json.cpp")
+  "src/common/logger.cpp"
+  "src/common/string_utils.cpp"
+  "src/common/json.cpp"
+  "src/models/lambda_payloads/gateway_proxy.cpp")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   "include/aws-lambda-cpp"
