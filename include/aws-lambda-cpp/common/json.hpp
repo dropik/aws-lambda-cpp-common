@@ -6,8 +6,12 @@
 
 #include <aws/core/utils/json/JsonSerializer.h>
 
+#include "aws-lambda-cpp/common/nullable.hpp"
+
 namespace aws_lambda_cpp {
   namespace json {
+    extern Aws::Utils::Json::JsonValue null_json;
+
     template<typename T>
     class json_serializer {
       protected:
@@ -113,6 +117,28 @@ namespace aws_lambda_cpp {
             json_value next;
             serialize(item.second, next);
             v.WithObject(item.first, next);
+          }
+        }
+
+        template<typename t_nullable>
+        void deserialize(aws_lambda_cpp::common::nullable<t_nullable>& n, const json_view& v) {
+          if (v.IsNull()) {
+            n.clear();
+          } else {
+            t_nullable value;
+            deserialize(value, v);
+            n = value;
+          }
+        }
+
+        template<typename t_nullable>
+        void serialize(const aws_lambda_cpp::common::nullable<t_nullable>& n, json_value& v) {
+          if (!n.has_value()) {
+            json_value null(aws_lambda_cpp::json::null_json);
+            v.AsObject(null);
+          } else {
+            t_nullable value = n.get_value();
+            serialize(value, v);
           }
         }
 

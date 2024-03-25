@@ -5,23 +5,26 @@
 #include <vector>
 
 #include "aws-lambda-cpp/common/json.hpp"
+#include "aws-lambda-cpp/common/nullable.hpp"
 
 namespace aws_lambda_cpp {
+  using namespace aws_lambda_cpp::common;
+
   namespace models {
     namespace lambda_payloads {
       class gateway_proxy_request_identity {
         public:
-          std::string cognito_identity_pool_id = "";
-          std::string account_id = "";
-          std::string cognito_identity_id = "";
-          std::string caller = "";
-          std::string access_key = "";
+          nullable<std::string> cognito_identity_pool_id;
+          nullable<std::string> account_id;
+          nullable<std::string> cognito_identity_id;
+          nullable<std::string> caller;
+          nullable<std::string> access_key;
           std::string source_ip = "";
-          std::string cognito_authentication_type = "";
-          std::string cognito_authentication_provider = "";
-          std::string user_arn = "";
+          nullable<std::string> cognito_authentication_type;
+          nullable<std::string> cognito_authentication_provider;
+          nullable<std::string> user_arn;
           std::string user_agent = "";
-          std::string user = "";
+          nullable<std::string> user;
 
           JSON_BEGIN_SERIALIZER(gateway_proxy_request_identity)
             JSON_PROPERTY("cognitoIdentityPoolId", cognito_identity_pool_id)

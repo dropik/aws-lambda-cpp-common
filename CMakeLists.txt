@@ -10,7 +10,8 @@ find_package(AWSSDK COMPONENTS core)
 
 add_library(${PROJECT_NAME} STATIC
   "src/logger.cpp"
-  "src/string_utils.cpp")
+  "src/string_utils.cpp"
+  "src/json.cpp")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   "include/aws-lambda-cpp"
