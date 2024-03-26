@@ -3,7 +3,7 @@
 #include <memory>
 #include <stdexcept>
 
-#include "common/string_utils.hpp"
+#include <aws-lambda-cpp/common/string_utils.hpp>
 
 using namespace aws_lambda_cpp::common;
 

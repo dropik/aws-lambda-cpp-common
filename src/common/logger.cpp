@@ -1,9 +1,8 @@
-#include "common/logger.hpp"
-
 #include <cstdarg>
 #include <aws/core/utils/logging/LogMacros.h>
 
-#include "common/string_utils.hpp"
+#include <aws-lambda-cpp/common/logger.hpp>
+#include <aws-lambda-cpp/common/string_utils.hpp>
 
 using namespace aws_lambda_cpp::common;
 using namespace Aws::Utils::Logging;

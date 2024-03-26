@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 
-#include "aws-lambda-cpp/common/json.hpp"
-#include "aws-lambda-cpp/common/nullable.hpp"
+#include <aws-lambda-cpp/common/json.hpp>
+#include <aws-lambda-cpp/common/nullable.hpp>
 
 namespace aws_lambda_cpp {
   using namespace aws_lambda_cpp::common;
@@ -72,7 +72,7 @@ namespace aws_lambda_cpp {
           JSON_END_SERIALIZER()
       };
 
-      class gateway_proxy_request {
+      class base_gateway_proxy_request {
         public:
           std::string body = "";
           std::string resource = "";
@@ -89,7 +89,7 @@ namespace aws_lambda_cpp {
 
           std::string get_body(bool decoded = true) const;
 
-          JSON_BEGIN_SERIALIZER(gateway_proxy_request)
+          JSON_BEGIN_SERIALIZER(base_gateway_proxy_request)
             JSON_PROPERTY("body", body)
             JSON_PROPERTY("resource", resource)
             JSON_PROPERTY("path", path)
@@ -104,6 +104,16 @@ namespace aws_lambda_cpp {
             JSON_PROPERTY("requestContext", request_context)
           JSON_END_SERIALIZER()
       };
+
+      template<typename _payloadT>
+      class gateway_proxy_request : public base_gateway_proxy_request {
+        public:
+          _payloadT get_payload() const {
+            std::string body_json = this->get_body();
+            return aws_lambda_cpp::json::deserialize<_payloadT>(body_json);
+          }
+      };
     }
   } 
 }
+

@@ -14,9 +14,7 @@ add_library(${PROJECT_NAME} STATIC
   "src/common/json.cpp"
   "src/models/lambda_payloads/gateway_proxy.cpp")
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-  "include/aws-lambda-cpp"
-  "include")
+target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   AWS::aws-lambda-runtime

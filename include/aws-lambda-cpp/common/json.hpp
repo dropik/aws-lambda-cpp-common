@@ -6,7 +6,7 @@
 
 #include <aws/core/utils/json/JsonSerializer.h>
 
-#include "aws-lambda-cpp/common/nullable.hpp"
+#include <aws-lambda-cpp/common/nullable.hpp>
 
 namespace aws_lambda_cpp {
   namespace json {
@@ -24,77 +24,77 @@ namespace aws_lambda_cpp {
         std::map<std::string, deserializer> deserializers;
         std::map<std::string, serializer> serializers;
 
-        void deserialize(std::string& s, const json_view& v) {
+        void deserialize_simple(std::string& s, const json_view& v) {
           s = v.AsString();
         }
 
-        void serialize(const std::string& s, json_value& v) {
+        void serialize_simple(const std::string& s, json_value& v) {
           v.AsString(s);
         }
 
-        void deserialize(int& i, const json_view& v) {
+        void deserialize_simple(int& i, const json_view& v) {
           i = v.AsInteger();
         }
 
-        void serialize(const int& i, json_value& v) {
+        void serialize_simple(const int& i, json_value& v) {
           v.AsInteger(i);
         }
 
-        void deserialize(long long& l, const json_view& v) {
+        void deserialize_simple(long long& l, const json_view& v) {
           l = v.AsInt64();
         }
 
-        void serialize(const long long& l, json_value& v) {
+        void serialize_simple(const long long& l, json_value& v) {
           v.AsInt64(l);
         }
 
-        void deserialize(bool& b, const json_view& v) {
+        void deserialize_simple(bool& b, const json_view& v) {
           b = v.AsBool();
         }
 
-        void serialize(const bool& b, json_value& v) {
+        void serialize_simple(const bool& b, json_value& v) {
           v.AsBool(b);
         }
 
-        void deserialize(double& d, const json_view& v) {
+        void deserialize_simple(double& d, const json_view& v) {
           d = v.AsDouble();
         }
 
-        void serialize(const double& d, json_value& v) {
+        void serialize_simple(const double& d, json_value& v) {
           v.AsDouble(d);
         }
 
         template<typename t_next>
-        void deserialize(t_next& t, const json_view& v) {
+        void deserialize_simple(t_next& t, const json_view& v) {
           typename t_next::json_serializer s;
           s.deserialize(t, v);
         }
 
         template<typename t_next>
-        void serialize(const t_next& t, json_value& v) {
+        void serialize_simple(const t_next& t, json_value& v) {
           typename t_next::json_serializer s;
           s.serialize(t, v);
         }
 
         template<typename t_item>
-        void deserialize(std::vector<t_item>& arr, const json_view& v) {
+        void deserialize_simple(std::vector<t_item>& arr, const json_view& v) {
           auto json_array = v.AsArray();
           int length = json_array.GetLength();
           for (int i = 0; i < length; i++) {
             json_view item_view = json_array.GetItem(i);
             t_item item;
-            deserialize(item, item_view);
+            deserialize_simple(item, item_view);
             arr.push_back(item);
           }
         }
 
         template<typename t_item>
-        void serialize(const std::vector<t_item>& arr, json_value& v) {
+        void serialize_simple(const std::vector<t_item>& arr, json_value& v) {
           std::vector<json_value> json_array;
           for (int i = 0; i < arr.size(); i++) {
             json_value json_item;
             t_item item = arr[i];
-            serialize(item, json_item);
+            serialize_simple(item, json_item);
             json_array.push_back(json_item);
           }
           Aws::Utils::Array<json_value> array_to_insert(json_array.data(), json_array.size());
@@ -102,43 +102,43 @@ namespace aws_lambda_cpp {
         }
 
         template<typename t_item>
-        void deserialize(std::map<std::string, t_item>& d, const json_view& v) {
+        void deserialize_simple(std::map<std::string, t_item>& d, const json_view& v) {
           auto json_map = v.GetAllObjects();
           for (const auto& json_property : json_map) {
             t_item item;
-            deserialize(item, json_property.second);
+            deserialize_simple(item, json_property.second);
             d[json_property.first] = item;
           }
         }
 
         template<typename t_item>
-        void serialize(const std::map<std::string, t_item>& d, json_value& v) {
+        void serialize_simple(const std::map<std::string, t_item>& d, json_value& v) {
           for (const auto& item : d) {
             json_value next;
-            serialize(item.second, next);
+            serialize_simple(item.second, next);
             v.WithObject(item.first, next);
           }
         }
 
         template<typename t_nullable>
-        void deserialize(aws_lambda_cpp::common::nullable<t_nullable>& n, const json_view& v) {
+        void deserialize_simple(aws_lambda_cpp::common::nullable<t_nullable>& n, const json_view& v) {
           if (v.IsNull()) {
             n.clear();
           } else {
             t_nullable value;
-            deserialize(value, v);
+            deserialize_simple(value, v);
             n = value;
           }
         }
 
         template<typename t_nullable>
-        void serialize(const aws_lambda_cpp::common::nullable<t_nullable>& n, json_value& v) {
+        void serialize_simple(const aws_lambda_cpp::common::nullable<t_nullable>& n, json_value& v) {
           if (!n.has_value()) {
             json_value null(aws_lambda_cpp::json::null_json);
             v.AsObject(null);
           } else {
             t_nullable value = n.get_value();
-            serialize(value, v);
+            serialize_simple(value, v);
           }
         }
 
@@ -183,9 +183,9 @@ namespace aws_lambda_cpp {
   }
 }
 
-#define JSON_BEGIN_SERIALIZER(name)                                         \
-  class json_serializer : public aws_lambda_cpp::json::json_serializer<name> {   \
-    public:                                                                 \
+#define JSON_BEGIN_SERIALIZER(name)                                             \
+  class json_serializer : public aws_lambda_cpp::json::json_serializer<name> {  \
+    public:                                                                     \
       json_serializer() {
 
 #define JSON_END_SERIALIZER() \
@@ -194,9 +194,9 @@ namespace aws_lambda_cpp {
 
 #define JSON_PROPERTY(key, field)                                   \
   this->deserializers[key] = [&](target& t, const json_view& v) {   \
-    deserialize(t.field, v);                                        \
+    deserialize_simple(t.field, v);                                 \
   };                                                                \
   this->serializers[key] = [&](const target& t, json_value& v) {    \
-    serialize(t.field, v);                                          \
+    serialize_simple(t.field, v);                                   \
   };
 

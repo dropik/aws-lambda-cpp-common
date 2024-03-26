@@ -1,11 +1,11 @@
 #include <aws/core/utils/base64/Base64.h>
 #include <string>
 
-#include "aws-lambda-cpp/models/lambda_payloads/gateway_proxy.hpp"
+#include <aws-lambda-cpp/models/lambda_payloads/gateway_proxy.hpp>
 
 using namespace Aws::Utils::Base64;
 
-std::string aws_lambda_cpp::models::lambda_payloads::gateway_proxy_request::get_body(bool decoded) const {
+std::string aws_lambda_cpp::models::lambda_payloads::base_gateway_proxy_request::get_body(bool decoded) const {
   if (!decoded || !this->is_base64_encoded) {
     return this->body;
   }

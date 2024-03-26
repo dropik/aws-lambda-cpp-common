@@ -4,7 +4,7 @@
 #include <vector>
 #include <aws/core/utils/json/JsonSerializer.h>
 
-#include "aws-lambda-cpp/common/json.hpp"
+#include <aws-lambda-cpp/common/json.hpp>
 
 namespace aws_lambda_cpp {
   namespace models {
