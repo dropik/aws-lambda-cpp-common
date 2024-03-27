@@ -173,12 +173,16 @@ namespace aws_lambda_cpp {
     }
 
     template<typename T>
-    std::string serialize(const T& model) {
+    std::string serialize(const T& model, bool compact = false) {
       Aws::Utils::Json::JsonValue value;
       typename T::json_serializer s;
       s.serialize(model, value);
-      std::string result = value.View().WriteReadable();
-      return result;
+      Aws::Utils::Json::JsonView view = value.View();
+      if (compact) {
+        return view.WriteCompact();
+      } else {
+        return view.WriteReadable();
+      }
     }
   }
 }

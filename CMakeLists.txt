@@ -12,7 +12,8 @@ add_library(${PROJECT_NAME} STATIC
   "src/common/logger.cpp"
   "src/common/string_utils.cpp"
   "src/common/json.cpp"
-  "src/models/lambda_payloads/gateway_proxy.cpp")
+  "src/models/lambda_payloads/gateway_proxy.cpp"
+  "src/models/lambda_responses/gateway_proxy.cpp")
 
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
