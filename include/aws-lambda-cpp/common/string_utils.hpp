@@ -12,6 +12,8 @@ namespace aws_lambda_cpp {
     std::string str_format(const std::string& format, Args... args) {
       return str_format_var(format.c_str(), args...);
     }
+
+    void replace_all(std::string& str, const std::string& from, const std::string& to);
   }
 }
 
