@@ -1,6 +1,7 @@
 #include <aws-lambda-cpp/common/runtime.hpp>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 using namespace aws_lambda_cpp::runtime;
 
@@ -19,12 +20,30 @@ void aws_lambda_cpp::runtime::set_debug(int argc, char* argv[]) {
   }
 }
 
-void aws_lambda_cpp::runtime::load_inline_payload()
+void aws_lambda_cpp::runtime::load_payload(int argc, char* argv[])
 {
   if (debug) {
-	std::string line;
-	while (std::getline(std::cin, line)) {
-	  payload += line;
+	// read payload from file provided as -p argument
+	for (int i = 1; i < argc; i++) {
+	  if (strcmp(argv[i], "-p") == 0) {
+		// check if there is a file name provided
+		if (i + 1 >= argc) {
+		  throw std::runtime_error("No file name provided for payload argument -p");
+		}
+		// read payload from file
+		std::ifstream file(argv[i + 1]);
+		std::string str;
+		if (file.is_open()) {
+		  while (std::getline(file, str))
+		  {
+			payload += str;
+		  }
+		  file.close();
+		}
+		else {
+		  throw std::runtime_error("Could not open file: " + std::string(argv[i + 1]));
+		}
+	  }
 	}
   }
 }
