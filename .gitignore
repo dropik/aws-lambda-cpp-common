@@ -3,3 +3,4 @@ install/
 .cache/
 .vs/*
 !.vs/launch.vs.json
+out/
