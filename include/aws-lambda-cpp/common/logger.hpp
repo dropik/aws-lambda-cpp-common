@@ -2,6 +2,8 @@
 
 #include <string>
 #include <aws/core/utils/logging/LogLevel.h>
+#include "string_utils.hpp"
+#include <aws/core/utils/logging/LogMacros.h>
 
 using namespace Aws::Utils::Logging;
 
@@ -48,7 +50,12 @@ namespace aws_lambda_cpp {
 
       private:
         const char* tag;
-        void log(LogLevel log_level, const char* message, ...) const;
+
+        template<typename... Args>
+        void log(LogLevel log_level, const char* message, Args... args) const {
+          AWS_LOGSTREAM(log_level, this->tag, str_format(message, args...));
+          AWS_LOGSTREAM_FLUSH();
+        }
     };
   }
 }
