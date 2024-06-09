@@ -1,9 +1,11 @@
-#include <aws-lambda-cpp/models/lambda_payloads/s3.hpp>
-
-using namespace aws_lambda_cpp::models::lambda_payloads;
+#include <lambda/models/payloads/s3.hpp>
 
 #define PUT_EVENT_NAME "ObjectCreated:Put"
 #define DELETE_EVENT_NAME "ObjectRemoved:Delete"
+
+namespace lambda {
+namespace models {
+namespace payloads {
 
 bool s3_record::is_put() const {
   return this->event_name == PUT_EVENT_NAME;
@@ -13,3 +15,6 @@ bool s3_record::is_delete() const {
   return this->event_name == DELETE_EVENT_NAME;
 }
 
+}
+}
+}

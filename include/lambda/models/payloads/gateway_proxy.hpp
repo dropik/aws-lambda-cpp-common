@@ -4,16 +4,16 @@
 #include <map>
 #include <vector>
 
-#include <aws-lambda-cpp/common/json.hpp>
-#include <aws-lambda-cpp/common/nullable.hpp>
+#include <lambda/json.hpp>
+#include "lambda/nullable.hpp"
 
-namespace aws_lambda_cpp {
+namespace lambda {
 namespace models {
-namespace lambda_payloads {
+namespace payloads {
 
 struct gateway_proxy_request_identity {
   template<typename T>
-  using nullable = aws_lambda_cpp::common::nullable<T>;
+  using nullable = lambda::nullable<T>;
 
   nullable<std::string> cognito_identity_pool_id;
   nullable<std::string> account_id;
@@ -119,7 +119,7 @@ class gateway_proxy_request : public base_gateway_proxy_request {
  public:
   _payloadT get_payload() const {
     std::string body_json = this->get_body();
-    return aws_lambda_cpp::json::deserialize<_payloadT>(body_json);
+    return lambda::json::deserialize<_payloadT>(body_json);
   }
 };
 

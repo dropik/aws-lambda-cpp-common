@@ -5,11 +5,11 @@
 #include <map>
 #include <aws/core/utils/json/JsonSerializer.h>
 
-#include <aws-lambda-cpp/common/json.hpp>
+#include "lambda/json.hpp"
 
-namespace aws_lambda_cpp {
+namespace lambda {
 namespace models {
-namespace lambda_payloads {
+namespace payloads {
 
 struct s3_identity {
   std::string principal_id;

@@ -9,13 +9,24 @@ find_package(aws-lambda-runtime REQUIRED)
 find_package(AWSSDK COMPONENTS core)
 
 add_library(${PROJECT_NAME} STATIC
-  "src/common/logger.cpp"
-  "src/common/string_utils.cpp"
-  "src/common/json.cpp"
-  "src/models/lambda_payloads/s3.cpp"
-  "src/models/lambda_payloads/gateway_proxy.cpp"
-  "src/models/lambda_responses/gateway_proxy.cpp"
-  "src/common/runtime.cpp")
+    "src/logger.cpp"
+    "src/string_utils.cpp"
+    "src/json.cpp"
+    "src/models/payloads/s3.cpp"
+    "src/models/payloads/gateway_proxy.cpp"
+    "src/models/responses/gateway_proxy.cpp"
+    "src/runtime.cpp"
+    "include/lambda/json.hpp"
+    "include/lambda/logger.hpp"
+    "include/lambda/macros.h"
+    "include/lambda/nullable.hpp"
+    "include/lambda/runtime.hpp"
+    "include/lambda/string_utils.hpp"
+    "include/lambda/http/responses.hpp"
+    "include/lambda/models/payloads/s3.hpp"
+    "include/lambda/models/payloads/gateway_proxy.hpp"
+    "include/lambda/models/responses/gateway_proxy.hpp"
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 

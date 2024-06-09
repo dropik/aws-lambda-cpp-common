@@ -1,18 +1,18 @@
-#include <aws-lambda-cpp/common/runtime.hpp>
+#include "lambda/runtime.hpp"
 #include <cstring>
 #include <iostream>
 #include <fstream>
 
-using namespace aws_lambda_cpp::runtime;
+using namespace lambda::runtime;
 
 bool debug = false;
 std::string payload;
 
-bool aws_lambda_cpp::runtime::is_debug() {
+bool lambda::runtime::is_debug() {
   return debug;
 }
 
-void aws_lambda_cpp::runtime::set_debug(int argc, char* argv[]) {
+void lambda::runtime::set_debug(int argc, char* argv[]) {
   for (int i = 1; i < argc; i++) {
 	if (strcmp(argv[i], "--debug") == 0) {
 	  debug = true;
@@ -20,7 +20,7 @@ void aws_lambda_cpp::runtime::set_debug(int argc, char* argv[]) {
   }
 }
 
-void aws_lambda_cpp::runtime::load_payload(int argc, char* argv[])
+void lambda::runtime::load_payload(int argc, char* argv[])
 {
   if (debug) {
 	// read payload from file provided as -p argument
@@ -48,7 +48,7 @@ void aws_lambda_cpp::runtime::load_payload(int argc, char* argv[])
   }
 }
 
-void aws_lambda_cpp::runtime::run_debug(std::function<aws::lambda_runtime::invocation_response(const aws::lambda_runtime::invocation_request&)> handler)
+void lambda::runtime::run_debug(std::function<aws::lambda_runtime::invocation_response(const aws::lambda_runtime::invocation_request&)> handler)
 {
   if (debug) {
 	aws::lambda_runtime::invocation_request req;

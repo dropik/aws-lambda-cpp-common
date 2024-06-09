@@ -4,11 +4,11 @@
 #include <vector>
 #include <map>
 
-#include <aws-lambda-cpp/common/json.hpp>
+#include "lambda/json.hpp"
 
-namespace aws_lambda_cpp {
+namespace lambda {
 namespace models {
-namespace lambda_responses {
+namespace responses {
 
 struct base_gateway_proxy_response {
   bool is_base64_encoded;
@@ -17,7 +17,7 @@ struct base_gateway_proxy_response {
   std::map<std::string, std::vector<std::string>> multi_value_headers;
   std::string body;
 
-  void set_body(const std::string &body, bool encoded = false);
+  void set_body(const std::string &new_body, bool encoded = false);
 
   JSON_BEGIN_SERIALIZER(base_gateway_proxy_response)
       JSON_PROPERTY("isBase64Encoded", is_base64_encoded)
@@ -32,7 +32,7 @@ template<typename _payloadT>
 class gateway_proxy_response : public base_gateway_proxy_response {
  public:
   void set_payload(const _payloadT &payload, bool encoded = false) {
-    std::string body = aws_lambda_cpp::json::serialize(payload, true);
+    std::string body = lambda::json::serialize(payload, true);
     this->set_body(body, encoded);
   }
 };
@@ -40,4 +40,3 @@ class gateway_proxy_response : public base_gateway_proxy_response {
 }
 }
 }
-

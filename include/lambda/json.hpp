@@ -7,9 +7,9 @@
 
 #include <aws/core/utils/json/JsonSerializer.h>
 
-#include <aws-lambda-cpp/common/nullable.hpp>
+#include "nullable.hpp"
 
-namespace aws_lambda_cpp {
+namespace lambda {
 namespace json {
 
 extern Aws::Utils::Json::JsonValue null_json;
@@ -131,7 +131,7 @@ class json_serializer {
   }
 
   template<typename t_nullable>
-  void deserialize_simple(aws_lambda_cpp::common::nullable<t_nullable> &n, const json_view &v) {
+  void deserialize_simple(lambda::nullable<t_nullable> &n, const json_view &v) {
     if (v.IsNull()) {
       n.clear();
     } else {
@@ -142,9 +142,9 @@ class json_serializer {
   }
 
   template<typename t_nullable>
-  void serialize_simple(const aws_lambda_cpp::common::nullable<t_nullable> &n, json_value &v) {
+  void serialize_simple(const lambda::nullable<t_nullable> &n, json_value &v) {
     if (!n.has_value()) {
-      json_value null(aws_lambda_cpp::json::null_json);
+      json_value null(lambda::json::null_json);
       v.AsObject(null);
     } else {
       t_nullable value = n.get_value();
@@ -256,7 +256,7 @@ T deserialize(const std::string &json) {
 }
 
 #define JSON_BEGIN_SERIALIZER(name)                                             \
-  class json_serializer : public aws_lambda_cpp::json::json_serializer<name> {  \
+  class json_serializer : public lambda::json::json_serializer<name> {  \
     public:                                                                     \
       json_serializer() {
 
@@ -271,4 +271,3 @@ T deserialize(const std::string &json) {
   this->serializers[key] = [&](const target& t, json_value& v) {    \
     serialize_simple(t.field, v);                                   \
   };
-
