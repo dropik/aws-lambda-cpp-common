@@ -17,6 +17,18 @@ std::string format(const std::string &format, Args... args) {
   return std::string(buf.get(), buf.get() + s - 1);
 }
 
+template<typename TIterable>
+std::string join(const std::string &delimiter, const TIterable &iterable) {
+  std::string result;
+  for (const auto &item : iterable) {
+    if (!result.empty()) {
+      result += delimiter;
+    }
+    result += item;
+  }
+  return result;
+}
+
 void replace_all(std::string &str, const std::string &from, const std::string &to);
 
 }
