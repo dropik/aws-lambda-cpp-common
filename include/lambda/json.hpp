@@ -17,7 +17,7 @@ extern Aws::Utils::Json::JsonValue null_json;
 template<typename T>
 class json_serializer {
  protected:
-  typedef T target;
+  using target = T;
   typedef Aws::Utils::Json::JsonValue json_value;
   typedef Aws::Utils::Json::JsonView json_view;
   typedef std::function<void(target &, const json_view &)> deserializer;
@@ -265,9 +265,9 @@ T deserialize(const std::string &json) {
   };
 
 #define JSON_PROPERTY(key, field)                                   \
-  this->deserializers[key] = [&](target& t, const json_view& v) {   \
+  this->deserializers[key] = [&](target& t, const Aws::Utils::Json::JsonView& v) {   \
     deserialize_simple(t.field, v);                                 \
   };                                                                \
-  this->serializers[key] = [&](const target& t, json_value& v) {    \
+  this->serializers[key] = [&](const target& t, Aws::Utils::Json::JsonValue& v) {    \
     serialize_simple(t.field, v);                                   \
   };
