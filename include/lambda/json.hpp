@@ -256,7 +256,8 @@ T deserialize(const std::string &json) {
 }
 
 #define JSON_BEGIN_SERIALIZER(name)                                             \
-  class json_serializer : public lambda::json::json_serializer<name> {  \
+  class json_serializer : public lambda::json::json_serializer<name> {          \
+    using target = name;                                                        \
     public:                                                                     \
       json_serializer() {
 
@@ -266,8 +267,8 @@ T deserialize(const std::string &json) {
 
 #define JSON_PROPERTY(key, field)                                   \
   this->deserializers[key] = [&](target& t, const Aws::Utils::Json::JsonView& v) {   \
-    deserialize_simple(t.field, v);                                 \
+    json_serializer::deserialize_simple(t.field, v);                                 \
   };                                                                \
   this->serializers[key] = [&](const target& t, Aws::Utils::Json::JsonValue& v) {    \
-    serialize_simple(t.field, v);                                   \
+    json_serializer::serialize_simple(t.field, v);                                   \
   };
