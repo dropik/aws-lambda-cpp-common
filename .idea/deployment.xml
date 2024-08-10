@@ -2,20 +2,22 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="Remote Development" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="Remote Host (f24a235e-f928-40b9-981d-3337b05cee0b)">
+      <paths name="AL2 (6395c5a1-1573-488e-81d7-8e80aad8c19d)">
         <serverdata>
           <mappings>
             <mapping deploy="/home/painkiller/.clion/aws-lambda-cpp-common" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/out/x86/debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/out/x86/debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/release" />
             <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/release" />
             <excludedPath local="true" path="$PROJECT_DIR$/out/x86/release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/x86/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/release" />
             <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/x86/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/out/x86/release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/out/arm64/release" />
           </excludedPaths>
         </serverdata>
       </paths>

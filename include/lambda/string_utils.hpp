@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace lambda {
 namespace string {
@@ -30,6 +31,7 @@ std::string join(const std::string &delimiter, const TIterable &iterable) {
 }
 
 void replace_all(std::string &str, const std::string &from, const std::string &to);
+std::vector<std::string> split(const std::string &str, const std::string &delimiter);
 
 }
 }
